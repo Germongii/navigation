@@ -3,15 +3,23 @@ import {PlanHandler} from './PlanHandler.js'
 import {Settings} from './Settings.js'
 import {Way} from './Way.js'
 import {DragHandler} from "./DragHandler.js";
+import {Names} from "./Names.js";
 
 //обработчик карты, передаем объект содержащий карту
 export let planHandler = new PlanHandler(document.querySelector('.plan-object'))
-planHandler.$planObject.data = Settings.floors.get('N3')
+planHandler.$planObject.data = Settings.planName
 planHandler.setSelectorElements(document.querySelector('.selector'),
 	document.querySelector('.button-from'),
 	document.querySelector('.button-to'))
 
-export let graph = new Graph(Settings.vertexes)
+let isGraphLoaded = false
+export let graph = new Graph(document.querySelector('.graph'), Settings.planName)
+graph.$graphObject.data = Settings.graphName
+graph.$graphObject.addEventListener('load', () => { //при загрузке плана
+	console.log('граф загружен', Date.now())
+	isGraphLoaded = true
+	processGraphAndPlan()
+})
 
 let isPlanLoaded = false
 export let dragHandler
@@ -29,13 +37,25 @@ dragHandler = new DragHandler(
 	document.querySelector('.button-minus'));
 
 function processGraphAndPlan() {
-	if (isPlanLoaded) {
+	if (isGraphLoaded && isGraphLoaded) {
 		planHandler.onPlanLoad()
 		way.setupWay(planHandler.$svgPlan)
+		
+		//Процесс трассировки и заполнения графа
+		graph.tracing($tableOfEdge)
+		graph.createVertexesList()
+		graph.fillGraph()
+		graph.tracingCross()
+		graph.fillAuditoriumsVertexes(planHandler.AuditoriumsIdEntrancesId, planHandler.$svgPlan)
+		graph.defineVertexesTypes()
+		graph.makeNeighboringIDsAsArray()
 	}
 }
 
 export let way = new Way(document.querySelector('.svg-way'),)
+
+
+let $tableOfEdge = document.getElementsByClassName('list-of-edges')[0]
 
 export function activateButton(buttonClassName) {
 	document.getElementsByClassName(buttonClassName)[0].classList.remove('non-active-button')
@@ -44,6 +64,13 @@ export function activateButton(buttonClassName) {
 export function deactivateButton(buttonClassName) {
 	document.getElementsByClassName(buttonClassName)[0].classList.add('non-active-button')
 }
+
+document.querySelector('.show-graph').addEventListener('click', () => {
+	graph.showGraph(document.querySelector('.graph-markers'), planHandler.$svgPlan)
+	graph.$graphObject.style.visibility = 'visible'
+	deactivateButton('show-graph')
+	activateButton('get-way')
+})
 
 document.querySelector('.get-way').addEventListener('click', () => {
 	let idVertex1 = document.getElementById('input-idPoint1').value
@@ -81,15 +108,16 @@ document.querySelector('.build-way').addEventListener('click', () => {
 	
 })
 
+document.querySelector('.hide-graph').addEventListener('click', () => {
+	graph.$graphObject.style.visibility = 'hidden'
+})
+
+document.querySelector('.assign-type').addEventListener('click',() =>{
+	let vertexId = graph.getVertexByID(document.getElementById('input-idPointType').value)
+	vertexId.type = document.getElementById('input-type').value
+	console.log(graph.vertexes)
+})
+
 document.querySelector('.map-wrapper').onwheel = function() {
 	return false
 }
-document.querySelector('.button-N3').addEventListener('click',()=>{
-	way.removeOldWays()
-	planHandler.$planObject.data = Settings.floors.get('N3')
-})
-document.querySelector('.button-N4').addEventListener('click',()=>{
-	way.removeOldWays()
-	planHandler.$planObject.data = Settings.floors.get('N4')
-
-})
