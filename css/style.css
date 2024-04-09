@@ -148,13 +148,21 @@ table tr:not(thead>tr) {
 
 .vertex-id {
 	position: absolute;
-	color: #ce787f;
 	border: 1px solid rgba(206, 120, 127, 0.5);
 	padding: 2px 4px;
-	fill: #ce787f;
-	/*font-family: */
+	fill: #ff7b86;
 	font-weight: 600;
-	font-size: 24px;
+	font-size: 18px;
+	pointer-events: auto;
+	fill-opacity: .6;
+	transition: all .25s ease;
+	cursor: default;
+}
+
+.vertex-id:hover {
+	fill-opacity: 1;
+	font-weight: bold;
+	font-size: 20px;
 }
 
 .edge-id {

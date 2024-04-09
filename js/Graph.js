@@ -353,6 +353,11 @@ export class Graph {
 			console.log('Разделенные ребра', splitEdges)
 			
 			let index = this.edges.indexOf(edge)
+			
+			console.log(edge, this.getVertexByID(edge.idVertex1).neighboringIDs);
+			this.getVertexByID(edge.idVertex1).neighboringIDs.delete(edge.idVertex2)
+			this.getVertexByID(edge.idVertex2).neighboringIDs.delete(edge.idVertex1)
+			
 			this.edges.splice(index, 1, ...splitEdges)
 			
 		}
@@ -430,11 +435,14 @@ export class Graph {
 			let $idEl = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 			$idEl.classList.add('vertex-id')
 			let $idElTspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan')
-			$idElTspan.setAttribute('x', `${vertex.x}`)
+			$idElTspan.setAttribute('x', `${vertex.x-vertex.id.length*6}`)
 			$idElTspan.setAttribute('y', `${vertex.y}`)
 			$idElTspan.innerHTML = vertex.id
 			$idEl.appendChild($idElTspan)
 			$graphMarkers.appendChild($idEl)
+			$graphMarkers.innerHTML += `
+			<circle cx=${vertex.x} cy=${vertex.y} r="4" fill="#FF5F5F" fill-opacity="1"></circle>
+			`
 		}
 		
 		for (let edge of this.edges) {
