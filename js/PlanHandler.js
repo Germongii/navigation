@@ -61,6 +61,7 @@ export class PlanHandler {
         //         $el.classList.add('auditorium') //и добавляем аудитории соответствующий класс, для подсветки
         //     }
         // }
+        console.log(this.$svgPlan.getElementById('Spaces'))
         console.groupCollapsed('Помещения')
         for (let $space of this.$svgPlan.getElementById('Spaces').children) {
 			if($space.id.at(0) === "!")

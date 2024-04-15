@@ -37,7 +37,7 @@ dragHandler = new DragHandler(
 	document.querySelector('.button-minus'));
 
 function processGraphAndPlan() {
-	if (isGraphLoaded && isGraphLoaded) {
+	if (isGraphLoaded && isPlanLoaded) {
 		planHandler.onPlanLoad()
 		way.setupWay(planHandler.$svgPlan)
 		
