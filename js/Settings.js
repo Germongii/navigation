@@ -15,11 +15,22 @@ export class Settings {
 }
 
 //ассоциации для сэмпла
-let auditoriumsEntrances = [
-	//Сюда массив ассоциаций для вашего плана
-	//Корус Н 3 этаж
-	['n-3-stair-1','35'],['n-3-stair-2','5'],['n-3-stair-3','16'],
-]
+let auditoriumsEntrances = [ //ЗАМЕНЯТЬ ОТ ЭТОЙ СКОБКИ
+	[
+		"n-3-stair-3",
+		"16"
+	],
+	[
+		"n-3-stair-2",
+		"5"
+	],
+	[
+		"n-3-stair-1",
+		"30"
+	]
+] //ДО ЭТОЙ СКОБКИ
+
+
 Settings.auditoriumsEntrances = new Map(auditoriumsEntrances)
 
 let auditoriumsRusNames = [

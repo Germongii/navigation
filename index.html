@@ -11,7 +11,8 @@
 	
 	<script defer src="./js/app.js" type="module"></script>
 	<script defer type="module">
-	  import {graph, planHandler} from "./js/app.js"
+	  import {graph, planHandler, bindingEntrancesOnClick} from "./js/app.js"
+		window.bindingEntrancesOnClick = bindingEntrancesOnClick
 	  import {Names} from "./js/Names.js"
 		import {Settings} from "./js/Settings.js";
     
@@ -73,6 +74,7 @@
 			<button class="assign-type button">Назначить</button>
 		</div>
 
+		<button class="binding-entrances button" onclick="bindingEntrancesOnClick(this)">Привязка входов</button>
 		<button class="hide-graph button">Скрыть граф</button>
 		<button class="show-graph button">Показать граф</button>
 		<div class="select-points">

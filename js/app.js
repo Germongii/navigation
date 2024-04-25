@@ -121,3 +121,7 @@ document.querySelector('.assign-type').addEventListener('click',() =>{
 document.querySelector('.map-wrapper').onwheel = function() {
 	return false
 }
+
+export function bindingEntrancesOnClick(e) {
+	planHandler.onBindingMode()
+}

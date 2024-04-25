@@ -212,6 +212,7 @@ input {
 }
 
 
+
 .hidden-selector {
 	animation: hide-selector .25s ease forwards;
 	display: flex;
@@ -340,15 +341,39 @@ input {
 }
 
 
+.bound-space {
+	fill: #3d5447;
+}
+
+.not-bound-space {
+	fill: #5f2f33;
+}
+
+.bound-entrance {
+	stroke: #78a88c;
+	stroke-width: 10px;
+	stroke-opacity: .8;
+	fill-opacity: .8;
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.not-bound-entrance {
+	stroke: #ff7b86;
+	stroke-width: 10px;
+	stroke-opacity: .8;
+	/*fill: #ff7b86;*/
+	/*fill-opacity: .8;*/
+	pointer-events: auto;
+	cursor: pointer;
+}
+
 .selected-entrance {
 	fill-opacity: 1;
 }
 
 .entrance:not(.selected-entrance) {
 	fill-opacity: 0;
-}
-
-.entrance {
 	pointer-events: none;
 }
 
