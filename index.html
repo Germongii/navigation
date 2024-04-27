@@ -11,8 +11,9 @@
 	
 	<script defer src="./js/app.js" type="module"></script>
 	<script defer type="module">
-	  import {graph, planHandler, bindingEntrancesOnClick} from "./js/app.js"
+	  import {graph, planHandler, bindingEntrancesOnClick, createLiveGraph} from "./js/app.js"
 		window.bindingEntrancesOnClick = bindingEntrancesOnClick
+		window.createLiveGraph = createLiveGraph
 	  import {Names} from "./js/Names.js"
 		import {Settings} from "./js/Settings.js";
     
@@ -75,7 +76,18 @@
 		</div>
 
 		<button class="binding-entrances button" onclick="bindingEntrancesOnClick(this)">Привязка входов</button>
-		<button class="hide-graph button">Скрыть граф</button>
+		<button class="create-live-graph button" onclick="createLiveGraph()">Создать граф</button>
+		<form class="modes-form" style="display: none">
+			<fieldset role="radiogroup" class="modes">
+				<legend>Режимы</legend>
+					<label><input type="radio" name="modes" value="None" onclick="liveGraph.setMode(Modes.None)">Не выбрано</label>
+					<label><input type="radio" name="modes" value="HallwayLine" onclick="liveGraph.setMode(Modes.HallwayLine)">Коридор по 3-м входам</label>
+					<label><input type="radio" name="modes" value="ConnectEntrancesToLine" onclick="liveGraph.setMode(Modes.ConnectEntrancesToLine)">Соединить линию с входами</label>
+					<label><input type="radio" name="modes" value="Trim" onclick="liveGraph.setMode(Modes.Trim)">Отрезать</label>
+			</fieldset>
+		</form>
+		<button class="create-live-graph button" onclick="downloadGraph()">Скачать</button>
+		
 		<button class="show-graph button">Показать граф</button>
 		<div class="select-points">
 			<div class="input-row">

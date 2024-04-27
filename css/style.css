@@ -180,8 +180,33 @@ table tr:not(thead>tr) {
 /*	width: 90%;*/
 /*}*/
 
+.modes-form {
+	text-align: center;
+}
 
-input {
+.modes-form legend {
+	font-weight: bold;
+}
+
+.modes-form label:has(input[type="radio"]:checked) {
+	background-color: #3B3C41;
+	padding: 2px 0 4px 0;
+	border: 2px solid #575764;
+}
+
+.modes-form label {
+	border: 2px solid #3B3C41;
+	padding: 4px 0 6px 0;
+	cursor: pointer;
+	transition: background-color .25s ease;
+	background-color: #232323;
+	display: block;
+}
+
+.modes-form input[type="radio"]{
+	display: none;
+}
+input[type="text"] {
 	color: inherit;
 	font-size: inherit;
 	background-color: inherit;
@@ -455,4 +480,40 @@ input {
 
 .plan #Icons{
 	pointer-events: none;
+}
+
+.live-graph {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+.live-entrance {
+	cursor: pointer;
+	r: 10;
+	stroke: #78a88c;
+	stroke-width: 20;
+	stroke-opacity: 0;
+	transition: all .1s;
+}
+
+.live-entrance.selected {
+	stroke-opacity: .5;
+}
+
+.live-graph path {
+	pointer-events: auto;
+	transition: all .1s;
+	cursor: pointer;
+}
+
+.live-graph path:hover {
+	stroke-width: 8;
+	stroke-opacity: .8;
+}
+
+.live-graph path.selected {
+	stroke: #78a88c;
+	stroke-opacity: .8;
 }

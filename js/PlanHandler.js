@@ -15,6 +15,7 @@ export class PlanHandler {
 	currentAuId //
 	fromId
 	toId
+	planName
 	
 	constructor($planObject) {
 		this.$planObject = $planObject //объект отображения плана
@@ -32,6 +33,7 @@ export class PlanHandler {
 		this.$svgPlan.classList.add('plan')
 		this.$planObject.before(this.$svgPlan) //вставляем в map-objects загруженный план
 		$planDocument.documentElement.remove() //удаляем всё из документа <object>
+		this.planName = this.$svgPlan.querySelector('g').getAttribute('id')
 		
 		// this.$svgPlan.parentElement.style.transform = `translateY(${Math.floor(wrapperHeight - height)/2}px)`
 		

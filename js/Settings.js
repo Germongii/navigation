@@ -7,7 +7,7 @@ export class Settings {
 	static auditoriumsEngNames = new Map()
 	static throughPassVertexes = [] //Вершины со сквозным проходом (например аудитория со сквозным проходом)
 	
-	static planName = 'resources/NULL-PLAN.svg' //ПУТЬ К ПЛАНУ ТУТ!!!
+	static planName = 'resources/A-1.svg' //ПУТЬ К ПЛАНУ ТУТ!!!
 	static graphName = 'resources/NULL-GRAPH.svg' //ПУТЬ К ГРАФУ ТУТ!!!
 	
 	static wayColor = '#3CD288'
@@ -15,20 +15,84 @@ export class Settings {
 }
 
 //ассоциации для сэмпла
-let auditoriumsEntrances = [ //ЗАМЕНЯТЬ ОТ ЭТОЙ СКОБКИ
+let auditoriumsEntrances = [
 	[
-		"n-3-stair-3",
-		"16"
+		"a-108",
+		"6"
 	],
 	[
-		"n-3-stair-2",
-		"5"
+		"a-112a",
+		"8"
 	],
 	[
-		"n-3-stair-1",
+		"a-112v",
+		"9"
+	],
+	[
+		"a-110",
+		"18"
+	],
+	[
+		"a-111",
+		"19"
+	],
+	[
+		"a-112",
+		"21"
+	],
+	[
+		"a-113",
+		"22"
+	],
+	[
+		"a-114",
+		"23"
+	],
+	[
+		"a-115",
+		"24"
+	],
+	[
+		"a-1-stair-5",
+		"25"
+	],
+	[
+		"a-116",
+		"26"
+	],
+	[
+		"a-117",
+		"27"
+	],
+	[
+		"a-118",
+		"28"
+	],
+	[
+		"a-1-wcm",
+		"35"
+	],
+	[
+		"a-119",
 		"30"
+	],
+	[
+		"a-120",
+		"31"
+	],
+	[
+		"a-1-stair-1",
+		"32"
+	],
+	[
+		"a-100",
+		"33"
+	],
+	[
+		"a-1-stair-2",
+		"20"
 	]
-] //ДО ЭТОЙ СКОБКИ
+]
 
 
 Settings.auditoriumsEntrances = new Map(auditoriumsEntrances)

@@ -4,6 +4,7 @@ import {Settings} from './Settings.js'
 import {Way} from './Way.js'
 import {DragHandler} from "./DragHandler.js";
 import {Names} from "./Names.js";
+import {LiveGraph} from "./LiveGraph.js"
 
 //обработчик карты, передаем объект содержащий карту
 export let planHandler = new PlanHandler(document.querySelector('.plan-object'))
@@ -108,10 +109,6 @@ document.querySelector('.build-way').addEventListener('click', () => {
 	
 })
 
-document.querySelector('.hide-graph').addEventListener('click', () => {
-	graph.$graphObject.style.visibility = 'hidden'
-})
-
 document.querySelector('.assign-type').addEventListener('click',() =>{
 	let vertexId = graph.getVertexByID(document.getElementById('input-idPointType').value)
 	vertexId.type = document.getElementById('input-type').value
@@ -125,3 +122,18 @@ document.querySelector('.map-wrapper').onwheel = function() {
 export function bindingEntrancesOnClick(e) {
 	planHandler.onBindingMode()
 }
+
+let liveGraph
+export function createLiveGraph() {
+	liveGraph = new LiveGraph(document.querySelector('.drag-able'), planHandler)
+	window.liveGraph = liveGraph
+}
+
+export function downloadGraph() {
+	liveGraph.downloadLiveGraph()
+}
+window.downloadGraph = downloadGraph
+
+setTimeout(() => {
+	document.querySelector('.create-live-graph').click()
+}, 300)
