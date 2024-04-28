@@ -189,18 +189,21 @@ table tr:not(thead>tr) {
 }
 
 .modes-form label:has(input[type="radio"]:checked) {
-	background-color: #3B3C41;
-	padding: 2px 0 4px 0;
-	border: 2px solid #575764;
+	background-color: #4A5598;
+	/*padding: 12px 0 12px 0;*/
 }
 
 .modes-form label {
-	border: 2px solid #3B3C41;
-	padding: 4px 0 6px 0;
+	border: 2px solid var(--backround-color);
+	padding: 12px 0 12px 0;
 	cursor: pointer;
-	transition: background-color .25s ease;
-	background-color: #232323;
+	transition: all .1s;
+	background-color: #3B3C41;
 	display: block;
+}
+
+.modes-form label:hover {
+	background-color: #3D4356;
 }
 
 .modes-form input[type="radio"]{

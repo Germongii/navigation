@@ -7,7 +7,7 @@ export class Settings {
 	static auditoriumsEngNames = new Map()
 	static throughPassVertexes = [] //Вершины со сквозным проходом (например аудитория со сквозным проходом)
 	
-	static planName = 'resources/A-1.svg' //ПУТЬ К ПЛАНУ ТУТ!!!
+	static planName = 'resources/NULL-PLAN.svg' //ПУТЬ К ПЛАНУ ТУТ!!!
 	static graphName = 'resources/NULL-GRAPH.svg' //ПУТЬ К ГРАФУ ТУТ!!!
 	
 	static wayColor = '#3CD288'

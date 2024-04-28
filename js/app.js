@@ -134,6 +134,6 @@ export function downloadGraph() {
 }
 window.downloadGraph = downloadGraph
 
-setTimeout(() => {
-	document.querySelector('.create-live-graph').click()
-}, 300)
+// setTimeout(() => {
+// 	document.querySelector('.create-live-graph').click()
+// }, 300)

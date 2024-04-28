@@ -4,7 +4,8 @@ let Modes = {
 	None: 'None',
 	HallwayLine: 'HallwayLine',
 	ConnectEntrancesToLine: 'ConnectEntrancesToLine',
-	Trim: 'Trim'
+	Trim: 'Trim',
+	SplitSegment: 'SplitSegment'
 }
 window.Modes = Modes
 
@@ -54,17 +55,17 @@ export class LiveGraph {
 		
 		// this.addSegment(100, 100, 500, 500)
 		
-		this.addSegment(1363, - 2427, 2197, 4524)
+		// this.addSegment(1363, - 2427, 2197, 4524)
 		// this.addSegment(0,0, 100, 100)
 		
 		this.render()
 		this.setMode(Modes.None)
-		this.setMode(Modes.ConnectEntrancesToLine)
-		this.onPathClick({target: document.getElementById('path_1363_-2427_2197_4524')})
-		// this.onCircleClick({target:document.getElementById('23')})
-		// this.onCircleClick({target:document.getElementById('27')})
-		// this.onCircleClick({target:document.getElementById('25')})
-		// this.onCircleClick({target:document.getElementById('35')})
+		// this.setMode(Modes.ConnectEntrancesToLine)
+		// this.onPathClick({target: document.getElementById('path_1363_-2427_2197_4524')})
+		// this.onCircleClick({target: document.getElementById('23')})
+		// this.onCircleClick({target: document.getElementById('27')})
+		// this.onCircleClick({target: document.getElementById('25')})
+		// this.onCircleClick({target: document.getElementById('35')})
 		// this.setMode(Modes.Trim)
 	}
 	
@@ -123,6 +124,17 @@ export class LiveGraph {
 	}
 	
 	setMode(mode) {
+		if (this.mode === Modes.ConnectEntrancesToLine) {
+			if (this.modeData.selectedPathId !== null) {
+				let points = this.getSegmentData(this.modeData.selectedPathId).points
+				this.removeSegment(this.getSegmentData(this.modeData.selectedPathId))
+				console.log(points)
+				for (let i = 0; i < points.length - 1; i ++) {
+					this.addSegment(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y)
+				}
+			}
+		}
+		
 		this.form.elements.modes.value = mode
 		this.mode = mode
 		this.modeData = null
@@ -145,14 +157,36 @@ export class LiveGraph {
 				selectedPathId: null
 			}
 		}
-		if(this.mode === Modes.Trim){
-			this.modeData = {
-			
-			}
+		if (this.mode === Modes.Trim) {
+			this.modeData = {}
+		}
+		if(this.mode === Modes.SplitSegment){
+			this.modeData = {}
 		}
 	}
 	
 	onPathClick(e) {
+		let segment = this.getSegmentData(e.target.id)
+		if(this.mode === Modes.SplitSegment){
+			let scaleAbleWidth = document.querySelector('.scale-able').clientWidth
+			let viewBoxWidth = this.liveGraphSvg.viewBox.baseVal.width
+			let k =  viewBoxWidth / (scaleAbleWidth - 1)
+			let clickCoordinates = new Point(
+				Math.round(e.offsetX * k),
+				Math.round(e.offsetY * k)
+			)
+			let nearestPoint = segmentBetween12SegAnd3Point(
+				{x: segment.x1, y: segment.y1},
+				{x: segment.x2, y: segment.y2},
+					clickCoordinates
+			)
+			let middlePoint = new Point(nearestPoint.x2, nearestPoint.y2)
+			this.addSegment(segment.x1, segment.y1, middlePoint.x, middlePoint.y)
+			this.addSegment(segment.x2, segment.y2, middlePoint.x, middlePoint.y)
+			this.removeSegment(segment)
+			console.log(clickCoordinates, middlePoint)
+			this.render()
+		}
 		if (this.mode === Modes.ConnectEntrancesToLine) {
 			if (this.modeData.selectedPathId !== null) {
 				this.setMode(Modes.ConnectEntrancesToLine)
@@ -161,6 +195,8 @@ export class LiveGraph {
 			this.modeData.selectedPathId = e.target.id
 		}
 		if (this.mode === Modes.Trim) {
+			this.removeSegment(this.getSegmentData(e.target.id))
+			this.render()
 			let scaleAbleWidth = document.querySelector('.scale-able').clientWidth
 			let viewBoxWidth = this.liveGraphSvg.viewBox.baseVal.width
 			let k =  viewBoxWidth / (scaleAbleWidth - 1)
@@ -168,50 +204,47 @@ export class LiveGraph {
 				Math.round(e.offsetX * k),
 				Math.round(e.offsetY * k)
 			)
-			function getIndexNearestPoint(originPoint, points){
-				let minDistance = Infinity
-				let minIndex = -1
-				for(let point of points){
-					let distance = ((point.x-originPoint.x)**2 + (point.y-originPoint.y)**2)**0.5
-					if(distance<minDistance) {
-						minDistance = distance
-						minIndex = points.indexOf(point)
-					}
-				}
-				return minIndex
-			}
-			
-			let segment = this.getSegmentData(e.target.id)
-			let nearestPointIndex = getIndexNearestPoint(
-				clickCoordinates,
-				segment.points
-			)
-			function isFirstPointLarge(point1, point2) {
-				if(point1.x > point2.x)
-					return true
-				else if(point1.y > point2.y)
-					return true
-				else
-					return false
-			}
-			let isLarge = isFirstPointLarge(segment.points[nearestPointIndex], clickCoordinates)
-			if(isLarge) {
-				this.addSegment(
-					segment.points[nearestPointIndex].x,
-					segment.points[nearestPointIndex].y,
-					segment.points[nearestPointIndex - 1].x,
-					segment.points[nearestPointIndex - 1].y,
-				)
-			}
-			else {
-				this.addSegment(
-					segment.points[nearestPointIndex].x,
-					segment.points[nearestPointIndex].y,
-					segment.points[nearestPointIndex + 1].x,
-					segment.points[nearestPointIndex + 1].y,
-				)
-			}
-			this.render()
+			// function getIndexNearestPoint(originPoint, points){
+			// 	let minDistance = Infinity
+			// 	let minIndex = -1
+			// 	for(let point of points){
+			// 		let distance = ((point.x-originPoint.x)**2 + (point.y-originPoint.y)**2)**0.5
+			// 		if(distance<minDistance) {
+			// 			minDistance = distance
+			// 			minIndex = points.indexOf(point)
+			// 		}
+			// 	}
+			// 	return minIndex
+			// }
+			//
+			// let segment = this.getSegmentData(e.target.id)
+			// let nearestPointIndex = getIndexNearestPoint(
+			// 	clickCoordinates,
+			// 	segment.points
+			// )
+			// function isFirstPointLarge(point1, point2) {
+			// 	if(point1.x > point2.x)
+			// 		return true
+			// 	else return point1.y > point2.y;
+			// }
+			// let isLarge = isFirstPointLarge(segment.points[nearestPointIndex], clickCoordinates)
+			// if(isLarge) {
+			// 	this.addSegment(
+			// 		segment.points[nearestPointIndex].x,
+			// 		segment.points[nearestPointIndex].y,
+			// 		segment.points[nearestPointIndex - 1].x,
+			// 		segment.points[nearestPointIndex - 1].y,
+			// 	)
+			// }
+			// else {
+			// 	this.addSegment(
+			// 		segment.points[nearestPointIndex].x,
+			// 		segment.points[nearestPointIndex].y,
+			// 		segment.points[nearestPointIndex + 1].x,
+			// 		segment.points[nearestPointIndex + 1].y,
+			// 	)
+			// }
+			// this.render()
 		}
 	}
 	
@@ -251,7 +284,7 @@ export class LiveGraph {
 			// this.addSegment(addingSegment.x2, addingSegment.y2, segment1to2.x1, segment1to2.y1)
 			// this.addSegment(addingSegment.x2, addingSegment.y2, segment1to2.x2, segment1to2.y2)
 			// this.removeSegment(segment1to2)
-			// segment1to2.addPoints(addingSegment.x2,addingSegment.y2)
+			segment1to2.addPoints(addingSegment.x2, addingSegment.y2)
 			console.log(segment1to2)
 			this.render()
 			this.liveGraphSvg.getElementById(segment1to2.id).classList.add('selected')
@@ -279,7 +312,7 @@ class Segment {
 		this.addPoints(x2, y2)
 	}
 	
-	addPoints(x, y){
+	addPoints(x, y) {
 		this.points.push(new Point(x, y))
 		this.points.sort(compare('x'))
 		this.points.sort(compare('y'))
