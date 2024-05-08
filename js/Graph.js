@@ -360,8 +360,8 @@ export class Graph {
 				vertex.type = 'lift' // Тип лифтов
 			} else if (vertex.id.indexOf('stair') > 0) {
 				vertex.type = 'stair' // Тип лестниц
-			} else if (vertex.id.indexOf('corpusTransition') > 0) {
-				vertex.type = 'corpusTransition' // Тип перехода между копрусами
+			} else if (vertex.id.indexOf('crossing') > 0) {
+				vertex.type = 'crossing' // Тип перехода между копрусами
 			} else if (vertex.neighboringIDs.size > 1 && vertex.type === 'entrancesToAu') {
 				vertex.type = 'crossingSpace' // Тип проходных помещений
 			}
